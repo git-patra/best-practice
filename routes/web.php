@@ -20,6 +20,4 @@ Route::get('login', function () {
     return view('login');
 })->name('login');
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('{page}', ['as' => 'page.index', 'uses' => 'PageController@index']);
-});
+Route::get('{page}', ['as' => 'page.index', 'uses' => 'PageController@index']);

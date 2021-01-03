@@ -32,7 +32,7 @@ class UserController extends Controller
 
                 $token = compact('token');
 
-                return response()->json($token)->withCookie('token', $token['token']);
+                return response()->json($token)->withCookie('token', $token['token'], 60, null, null, false, false);
             }
 
             return $this->error('Pasword Salah!');
