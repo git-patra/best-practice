@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
+use Auth;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -29,7 +30,9 @@ class UserController extends Controller
                     return response()->json(['error' => 'could_not_create_token'], 500);
                 }
 
-                return response()->json(compact('token'));
+                $token = compact('token');
+
+                return response()->json($token)->withCookie('token', $token['token']);
             }
 
             return $this->error('Pasword Salah!');
@@ -71,6 +74,15 @@ class UserController extends Controller
         ]);
     }
 
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        // Tell Laravel to forget this cookie
+        $cookie = \Cookie::forget('token');
+        return response()->json([
+            'message' => 'Has been logout!'
+        ])->withCookie($cookie);
+    }
 
     public function getAuthenticatedUser()
     {
