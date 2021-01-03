@@ -16,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('login', function () {
+    return view('login');
+})->name('login');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('{page}', ['as' => 'page.index', 'uses' => 'PageController@index']);
+});
